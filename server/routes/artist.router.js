@@ -4,14 +4,15 @@ const express = require('express');
 const router = express.Router();
 // Using a array of data on the server, we will eventually
 // move this back into the database.
-const artists = require('../modules/artist.data');
+let artists = require('../modules/artist.data');
 let nextId = artists.length;
 
 router.delete('/:id', (req, res) => {    
     // TODO: Use filter to remove the artist
-    const matchId = req.params.id;
+    const matchId = parseInt(req.params.id);
     let foundMatch = false;
     artists = artists.filter((artist, index) => {
+        console.log('artist.id === matchId: ', artist.id === matchId);
         if (artist.id === matchId) {
             foundMatch = true;
         }
@@ -21,7 +22,7 @@ router.delete('/:id', (req, res) => {
     if (foundMatch) {
         res.sendStatus(200);
     } else {
-        console.log('There was no item to delete with that idea.')
+        console.log('There was no item to delete with that idea.');
         res.sendStatus(500);
     }
 });
