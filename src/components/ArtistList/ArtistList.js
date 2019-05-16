@@ -2,12 +2,14 @@
 
 import React, { Component } from 'react';
 import ArtistListItem from '../ArtistListItem/ArtistListItem';
+import {connect} from 'react-redux';
+import mapReduxStateToProps from '../../modules/mapReduxStateToProps';
 
 class ArtistList extends Component {
     createArtistList() {
         let artistListForDom = [];
-        for(let i = 0; i < this.props.artistList.length; i += 1) {
-            let artist = this.props.artistList[i];
+        for(let i = 0; i < this.props.reduxState.artistReducer.length; i += 1) {
+            let artist = this.props.reduxState.artistReducer[i];
             let artistRow = (<ArtistListItem key={i} refreshArtists={this.props.refreshArtists} artist={artist} />);
             artistListForDom.push(artistRow);
         }
@@ -27,4 +29,4 @@ class ArtistList extends Component {
     }
 }
 
-export default ArtistList;
+export default connect(mapReduxStateToProps)(ArtistList);

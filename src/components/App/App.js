@@ -6,6 +6,8 @@ import axios from 'axios';
 import ArtistList from './../ArtistList/ArtistList.js';
 import {connect} from 'react-redux';
 import mapReduxStateToProps from '../../modules/mapReduxStateToProps';
+import { HashRouter as Router, Route, Link } from "react-router-dom";
+import AddArtist from '../AddArtist/AddArtist';
 
 class App extends Component {
   // Called when the (App) component is created
@@ -26,21 +28,28 @@ class App extends Component {
     }).then((response) => {
       console.log(response);
       // response.data will be the array of artists
-      this.setState({
-        artists: response.data,
-      });
+      this.props.dispatch({
+        type: 'ADD_ARTISTS_LIST',
+        payload: response.data,
+      })
+      // this.setState({
+      //   artists: response.data,
+      // });
     });
   }
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Famous Artists</h1>
-        </header>
-        <br/>
-        <ArtistList refreshArtists={this.refreshArtists} artistList={this.props.reduxState.artistReducer} />
-      </div>
+      <Router>
+        <div className="App">
+          <header className="App-header">
+            <h1 className="App-title">Famous Artists</h1>
+          </header>
+          <br/>
+          <Route exact path="/" component={ArtistList} />
+          <Route path="/add-artist" component={AddArtist} />
+        </div>
+      </Router>
     );
   }
 }
