@@ -9,9 +9,21 @@ let nextId = artists.length;
 
 router.delete('/:id', (req, res) => {    
     // TODO: Use filter to remove the artist
-    // artists = artists.filter(...)
+    const matchId = req.params.id;
+    let foundMatch = false;
+    artists = artists.filter((artist, index) => {
+        if (artist.id === matchId) {
+            foundMatch = true;
+        }
+        return artist.id !== matchId;
+    });
 
-    res.sendStatus(200);
+    if (foundMatch) {
+        res.sendStatus(200);
+    } else {
+        console.log('There was no item to delete with that idea.')
+        res.sendStatus(500);
+    }
 });
 
 // GET all the books
