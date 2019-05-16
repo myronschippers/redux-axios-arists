@@ -12,7 +12,7 @@ import { Provider } from 'react-redux';
 
 const artistReducer = (state = [], action) => {
     if (action.type === 'ADD_ARTISTS_LIST') {
-        return [...state, ...action.payload];
+        return action.payload;
     }
     return state;
 }

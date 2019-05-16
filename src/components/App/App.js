@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import mapReduxStateToProps from '../../modules/mapReduxStateToProps';
 import { HashRouter as Router, Route, Link } from "react-router-dom";
 import AddArtist from '../AddArtist/AddArtist';
+import { getArtists } from '../../modules/services/artist.service';
 
 class App extends Component {
   // Called when the (App) component is created
@@ -21,21 +22,18 @@ class App extends Component {
   }
 
   refreshArtists = () => {
-    // just like $.ajax()
-    axios({
-      method: 'GET',
-      url: '/artist'
-    }).then((response) => {
-      console.log(response);
-      // response.data will be the array of artists
-      this.props.dispatch({
-        type: 'ADD_ARTISTS_LIST',
-        payload: response.data,
-      })
-      // this.setState({
-      //   artists: response.data,
-      // });
-    });
+    getArtists()
+      .then((response) => {
+        console.log(response);
+        // response.data will be the array of artists
+        this.props.dispatch({
+          type: 'ADD_ARTISTS_LIST',
+          payload: response.data,
+        })
+        // this.setState({
+        //   artists: response.data,
+        // });
+      });
   }
 
   render() {

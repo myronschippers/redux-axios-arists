@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import { postArtist, getArtists } from '../../modules/services/artist.service';
+import {connect} from 'react-redux';
+import mapReduxStateToProps from '../../modules/mapReduxStateToProps';
 
 class AddArtist extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            enteredName: '',
+            enteredName: { name: '' },
         }
     }
 
@@ -13,8 +16,28 @@ class AddArtist extends Component {
         const inputValue = event.target.value;
         console.log(inputValue);
         this.setState({
-            enteredName: inputValue,
+            enteredName: { name: inputValue },
         })
+    }
+
+    addArtist = (event) => {
+        this.postNewArtist(this.state.enteredName);
+    }
+
+    postNewArtist(artistObject) {
+        postArtist(artistObject)
+            .then((response) => {
+                getArtists()
+                    .then((response) => {
+                        this.props.dispatch({
+                            type: 'ADD_ARTISTS_LIST',
+                            payload: response.data
+                        });
+
+                        // navigate to list
+                        this.props.history.push('/');
+                    })
+            });
     }
 
     render() {
@@ -25,9 +48,10 @@ class AddArtist extends Component {
                     placeholder="Artist Name"
                     onChange={this.changeName}
                 />
+                <button onClick={this.addArtist}>Add Artist</button>
             </div>
         );
     }
 }
 
-export default AddArtist;
+export default connect(mapReduxStateToProps)(AddArtist);
