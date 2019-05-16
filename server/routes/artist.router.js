@@ -12,7 +12,6 @@ router.delete('/:id', (req, res) => {
     const matchId = parseInt(req.params.id);
     let foundMatch = false;
     artists = artists.filter((artist, index) => {
-        console.log('artist.id === matchId: ', artist.id === matchId);
         if (artist.id === matchId) {
             foundMatch = true;
         }
