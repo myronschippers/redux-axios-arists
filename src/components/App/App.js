@@ -2,11 +2,10 @@
 
 import React, { Component } from 'react';
 import './App.css';
-import axios from 'axios';
 import ArtistList from './../ArtistList/ArtistList.js';
 import {connect} from 'react-redux';
 import mapReduxStateToProps from '../../modules/mapReduxStateToProps';
-import { HashRouter as Router, Route, Link } from "react-router-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
 import AddArtist from '../AddArtist/AddArtist';
 import { getArtists } from '../../modules/services/artist.service';
 

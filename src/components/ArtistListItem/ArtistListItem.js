@@ -1,17 +1,21 @@
 // ArtistListItem.js
 
 import React, { Component } from 'react';
-import axios from 'axios';
+import { deleteArtist } from '../../modules/services/artist.service';
+import { connect } from 'react-redux';
+import mapReduxStateToProps from '../../modules/mapReduxStateToProps';
 
 class ArtistListItem extends Component {
     deleteArtist = () => {
-        axios({
-            method: 'DELETE',
-            url: `/artist/${this.props.artist.id}`
-        }).then((response) => {
-            this.props.refreshArtists();
-        });
+        deleteArtist(this.props.artist.id)
+            .then((response) => {
+                this.props.dispatch({
+                    type: 'ADD_ARTISTS_LIST',
+                    payload: response.data,
+                })
+            });
     }
+
     render() {
         return (
             <tr>
@@ -22,4 +26,4 @@ class ArtistListItem extends Component {
     }
 }
 
-export default ArtistListItem;
+export default connect(mapReduxStateToProps)(ArtistListItem);
