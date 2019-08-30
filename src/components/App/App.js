@@ -22,17 +22,16 @@ class App extends Component {
   }
 
   refreshArtists = () => {
-    getArtists()
+    axios.get('/artist')
       .then((response) => {
-        console.log(response);
         // response.data will be the array of artists
+        const artistsList = response.data;
+        console.log(artistsList);
+
         this.props.dispatch({
           type: 'ADD_ARTISTS_LIST',
-          payload: response.data,
-        })
-        // this.setState({
-        //   artists: response.data,
-        // });
+          payload: artistsList,
+        });
       });
   }
 

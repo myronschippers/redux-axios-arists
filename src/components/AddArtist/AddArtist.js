@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { postArtist, getArtists } from '../../modules/services/artist.service';
 import {connect} from 'react-redux';
 import mapReduxStateToProps from '../../modules/mapReduxStateToProps';
+import axios from 'axios';
 
 class AddArtist extends Component {
     constructor(props) {
@@ -25,18 +26,16 @@ class AddArtist extends Component {
     }
 
     postNewArtist(artistObject) {
-        postArtist(artistObject)
+        axios.post('/artist', artistObject)
             .then((response) => {
-                getArtists()
-                    .then((response) => {
-                        this.props.dispatch({
-                            type: 'ADD_ARTISTS_LIST',
-                            payload: response.data
-                        });
+                // TODO - Get a fresh list of the artist from sever API
+                // -- Need access to the get method from App.js
 
-                        // navigate to list
-                        this.props.history.push('/');
-                    })
+                // navigate to list page
+                this.props.history.push('/');
+            })
+            .catch((err) => {
+                alert('There was an error saving your artist.')
             });
     }
 
